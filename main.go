@@ -9,6 +9,18 @@ import (
 
 const pwd_db = "password.db"
 
+func main() {
+	var args []string
+	args = os.Args
+	if args[1] == "add" {
+		store(args[2], args[3], args[4])
+	} else if args[1] == "get" {
+		retrieve(args[2])
+	} else {
+		fmt.Println("Invalid operation ", args[1])
+	}
+}
+
 func store(platform string, username string, password string) {
 	entry := platform + "," + username + "," + password + "\n"
 	f, err := os.OpenFile(pwd_db, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
@@ -45,16 +57,4 @@ func retrieve(platform string) {
 		}
 	}
 	fmt.Printf("Platform %s not known\n", platform)
-}
-
-func main() {
-	var args []string
-	args = os.Args
-	if args[1] == "add" {
-		store(args[2], args[3], args[4])
-	} else if args[1] == "get" {
-		retrieve(args[2])
-	} else {
-		fmt.Println("Invalid operation ", args[1])
-	}
 }
